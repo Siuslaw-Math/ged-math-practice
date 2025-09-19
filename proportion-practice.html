@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice 1.2 - Proportion Problems</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow: hidden;
+        }
+        
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .slide {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            display: none;
+        }
+        
+        .slide.active {
+            display: block;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .title-slide h1 {
+            font-size: 3em;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .title-slide p {
+            font-size: 1.4em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .problem-slide .problem-number {
+            font-size: 2.5em;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        
+        .fraction {
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+            font-size: 3.5em;
+            font-weight: bold;
+            margin: 0 15px;
+        }
+        
+        .fraction .numerator {
+            display: block;
+            border-bottom: 3px solid #333;
+            padding-bottom: 5px;
+        }
+        
+        .fraction .denominator {
+            display: block;
+            padding-top: 5px;
+        }
+        
+        .equals {
+            font-size: 3.5em;
+            font-weight: bold;
+            color: #764ba2;
+            vertical-align: middle;
+            margin: 0 20px;
+        }
+        
+        .missing {
+            color: #e74c3c;
+            text-decoration: underline;
+            text-decoration-color: #e74c3c;
+        }
+        
+        .decimal {
+            font-size: 3.5em;
+            font-weight: bold;
+            vertical-align: middle;
+            margin: 0 15px;
+        }
+        
+        .dollar {
+            font-size: 3.5em;
+            font-weight: bold;
+            vertical-align: middle;
+            margin: 0 15px;
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .nav-btn {
+            background: rgba(255,255,255,0.9);
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+        
+        /* Responsive design for small screens */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .fraction {
+                font-size: 2.8em;
+                margin: 0 10px;
+            }
+            
+            .equals {
+                font-size: 2.8em;
+                margin: 0 15px;
+            }
+            
+            .decimal, .dollar {
+                font-size: 2.8em;
+                margin: 0 10px;
+            }
+            
+            .title-slide h1 {
+                font-size: 2.2em;
+            }
+            
+            .problem-slide .problem-number {
+                font-size: 2em;
+            }
+            
+            .nav-btn {
+                padding: 10px 18px;
+                font-size: 1em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .fraction {
+                font-size: 2.2em;
+                margin: 0 8px;
+            }
+            
+            .equals {
+                font-size: 2.2em;
+                margin: 0 12px;
+            }
+            
+            .decimal, .dollar {
+                font-size: 2.2em;
+                margin: 0 8px;
+            }
+            
+            .title-slide h1 {
+                font-size: 1.8em;
+            }
+            
+            .title-slide p {
+                font-size: 1.2em;
+            }
+            
+            .problem-slide .problem-number {
+                font-size: 1.6em;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">34</span>
+    </div>
+
+    <!-- Video Tutorial Slide -->
+    <div class="slide active title-slide">
+        <h1>📹 Video Tutorial</h1>
+        <p style="font-size: 1.6em; margin-bottom: 30px;">Please watch this video tutorial to learn how to solve proportion problems:</p>
+        <a href="https://www.youtube.com/watch?v=g92xsLTyPdc" target="_blank" style="display: inline-block; background: #ff4444; color: white; padding: 20px 40px; border-radius: 10px; text-decoration: none; font-size: 1.4em; font-weight: bold; margin: 20px 0; transition: all 0.3s ease;">
+            ▶️ Watch Tutorial on YouTube
+        </a>
+        <p style="color: #666; font-size: 1.2em;">After watching, click "Next" to begin practice</p>
+    </div>
+
+    <!-- Title Slide -->
+    <div class="slide title-slide">
+        <h1>Practice 1.2</h1>
+        <p>Solve for the missing term in each proportion problem</p>
+        <p>You MAY use your calculator for questions 9 through 16</p>
+        <p><strong>NOTE:</strong> Answers will not always be whole numbers</p>
+    </div>
+
+    <!-- Problem 1 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">1.</div>
+        <div class="fraction">
+            <span class="numerator">9</span>
+            <span class="denominator">4</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator missing">?</span>
+            <span class="denominator">16</span>
+        </div>
+    </div>
+
+    <!-- Answer 1 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">1. Answer</div>
+        <div class="fraction">
+            <span class="numerator">9</span>
+            <span class="denominator">4</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator" style="color: #27ae60; font-weight: bold;">36</span>
+            <span class="denominator">16</span>
+        </div>
+    </div>
+
+    <!-- Problem 2 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">2.</div>
+        <div class="fraction">
+            <span class="numerator">3</span>
+            <span class="denominator">8</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">27</span>
+            <span class="denominator missing">?</span>
+        </div>
+    </div>
+
+    <!-- Answer 2 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">2. Answer</div>
+        <div class="fraction">
+            <span class="numerator">3</span>
+            <span class="denominator">8</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">27</span>
+            <span class="denominator" style="color: #27ae60; font-weight: bold;">72</span>
+        </div>
+    </div>
+
+    <!-- Problem 3 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">3.</div>
+        <div class="fraction">
+            <span class="numerator">6</span>
+            <span class="denominator">5</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">3</span>
+            <span class="denominator missing">?</span>
+        </div>
+    </div>
+
+    <!-- Answer 3 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">3. Answer</div>
+        <div class="fraction">
+            <span class="numerator">6</span>
+            <span class="denominator">5</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">3</span>
+            <span class="denominator" style="color: #27ae60; font-weight: bold;">2.5</span>
+        </div>
+    </div>
+
+    <!-- Problem 4 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">4.</div>
+        <div class="fraction">
+            <span class="numerator">15</span>
+            <span class="denominator">12</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator missing">?</span>
+            <span class="denominator">8</span>
+        </div>
+    </div>
+
+    <!-- Answer 4 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">4. Answer</div>
+        <div class="fraction">
+            <span class="numerator">15</span>
+            <span class="denominator">12</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator" style="color: #27ae60; font-weight: bold;">10</span>
+            <span class="denominator">8</span>
+        </div>
+    </div>
+
+    <!-- Problem 5 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">5.</div>
+        <div class="fraction">
+            <span class="numerator">7</span>
+            <span class="denominator">4</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">21</span>
+            <span class="denominator missing">?</span>
+        </div>
+    </div>
+
+    <!-- Answer 5 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">5. Answer</div>
+        <div class="fraction">
+            <span class="numerator">7</span>
+            <span class="denominator">4</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">21</span>
+            <span class="denominator" style="color: #27ae60; font-weight: bold;">12</span>
+        </div>
+    </div>
+
+    <!-- Problem 6 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">6.</div>
+        <div class="fraction">
+            <span class="numerator">25</span>
+            <span class="denominator">6</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">100</span>
+            <span class="denominator missing">?</span>
+        </div>
+    </div>
+
+    <!-- Answer 6 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">6. Answer</div>
+        <div class="fraction">
+            <span class="numerator">25</span>
+            <span class="denominator">6</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">100</span>
+            <span class="denominator" style="color: #27ae60; font-weight: bold;">24</span>
+        </div>
+    </div>
+
+    <!-- Problem 7 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">7.</div>
+        <div class="fraction">
+            <span class="numerator">7</span>
+            <span class="denominator">30</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator missing">?</span>
+            <span class="denominator">5</span>
+        </div>
+    </div>
+
+    <!-- Answer 7 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">7. Answer</div>
+        <div class="fraction">
+            <span class="numerator">7</span>
+            <span class="denominator">30</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator" style="color: #27ae60; font-weight: bold;">7/6</span>
+            <span class="denominator">5</span>
+        </div>
+    </div>
+
+    <!-- Problem 8 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">8.</div>
+        <div class="fraction">
+            <span class="numerator">0.5</span>
+            <span class="denominator">12</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">3</span>
+            <span class="denominator missing">?</span>
+        </div>
+    </div>
+
+    <!-- Answer 8 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">8. Answer</div>
+        <div class="fraction">
+            <span class="numerator">0.5</span>
+            <span class="denominator">12</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">3</span>
+            <span class="denominator" style="color: #27ae60; font-weight: bold;">72</span>
+        </div>
+    </div>
+
+    <!-- Problem 9 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">9.</div>
+        <div class="fraction">
+            <span class="numerator">22</span>
+            <span class="denominator">25</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator missing">?</span>
+            <span class="denominator">7</span>
+        </div>
+    </div>
+
+    <!-- Answer 9 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">9. Answer</div>
+        <div class="fraction">
+            <span class="numerator">22</span>
+            <span class="denominator">25</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator" style="color: #27ae60; font-weight: bold;">6.16</span>
+            <span class="denominator">7</span>
+        </div>
+    </div>
+
+    <!-- Problem 10 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">10.</div>
+        <div class="fraction">
+            <span class="numerator">$5.96</span>
+            <span class="denominator">1</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator missing">?</span>
+            <span class="denominator">5</span>
+        </div>
+    </div>
+
+    <!-- Answer 10 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">10. Answer</div>
+        <div class="fraction">
+            <span class="numerator">$5.96</span>
+            <span class="denominator">1</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator" style="color: #27ae60; font-weight: bold;">$29.80</span>
+            <span class="denominator">5</span>
+        </div>
+    </div>
+
+    <!-- Problem 11 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">11.</div>
+        <div class="fraction">
+            <span class="numerator">12</span>
+            <span class="denominator">7</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">3</span>
+            <span class="denominator missing">?</span>
+        </div>
+    </div>
+
+    <!-- Answer 11 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">11. Answer</div>
+        <div class="fraction">
+            <span class="numerator">12</span>
+            <span class="denominator">7</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">3</span>
+            <span class="denominator" style="color: #27ae60; font-weight: bold;">1.75</span>
+        </div>
+    </div>
+
+    <!-- Problem 12 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">12.</div>
+        <div class="fraction">
+            <span class="numerator">7</span>
+            <span class="denominator">60</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">2.5</span>
+            <span class="denominator missing">?</span>
+        </div>
+    </div>
+
+    <!-- Answer 12 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">12. Answer</div>
+        <div class="fraction">
+            <span class="numerator">7</span>
+            <span class="denominator">60</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">2.5</span>
+            <span class="denominator" style="color: #27ae60; font-weight: bold;">21.43</span>
+        </div>
+    </div>
+
+    <!-- Problem 13 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">13.</div>
+        <div class="fraction">
+            <span class="numerator">5</span>
+            <span class="denominator">19</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator missing">?</span>
+            <span class="denominator">114</span>
+        </div>
+    </div>
+
+    <!-- Answer 13 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">13. Answer</div>
+        <div class="fraction">
+            <span class="numerator">5</span>
+            <span class="denominator">19</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator" style="color: #27ae60; font-weight: bold;">30</span>
+            <span class="denominator">114</span>
+        </div>
+    </div>
+
+    <!-- Problem 14 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">14.</div>
+        <div class="fraction">
+            <span class="numerator">7</span>
+            <span class="denominator">$80.10</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator missing">?</span>
+            <span class="denominator">$284.50</span>
+        </div>
+    </div>
+
+    <!-- Answer 14 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">14. Answer</div>
+        <div class="fraction">
+            <span class="numerator">7</span>
+            <span class="denominator">$80.10</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator" style="color: #27ae60; font-weight: bold;">24.87</span>
+            <span class="denominator">$284.50</span>
+        </div>
+    </div>
+
+    <!-- Problem 15 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">15.</div>
+        <div class="fraction">
+            <span class="numerator">$26.00</span>
+            <span class="denominator">4</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator missing">?</span>
+            <span class="denominator">7</span>
+        </div>
+    </div>
+
+    <!-- Answer 15 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">15. Answer</div>
+        <div class="fraction">
+            <span class="numerator">$26.00</span>
+            <span class="denominator">4</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator" style="color: #27ae60; font-weight: bold;">$45.50</span>
+            <span class="denominator">7</span>
+        </div>
+    </div>
+
+    <!-- Problem 16 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">16.</div>
+        <div class="fraction">
+            <span class="numerator">84</span>
+            <span class="denominator">9</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">7</span>
+            <span class="denominator missing">?</span>
+        </div>
+    </div>
+
+    <!-- Answer 16 -->
+    <div class="slide problem-slide">
+        <div class="problem-number">16. Answer</div>
+        <div class="fraction">
+            <span class="numerator">84</span>
+            <span class="denominator">9</span>
+        </div>
+        <span class="equals">=</span>
+        <div class="fraction">
+            <span class="numerator">7</span>
+            <span class="denominator" style="color: #27ae60; font-weight: bold;">0.75</span>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+        }
+        
+        function changeSlide(direction) {
+            if (direction === 1 && currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            } else if (direction === -1 && currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+        
+        // Initialize
+        showSlide(0);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            }
+        });
+        
+        // Touch/swipe support for mobile
+        let startX = null;
+        
+        document.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+        });
+        
+        document.addEventListener('touchend', function(e) {
+            if (startX === null) return;
+            
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) { // Minimum swipe distance
+                if (diff > 0) {
+                    changeSlide(1); // Swipe left - next slide
+                } else {
+                    changeSlide(-1); // Swipe right - previous slide
+                }
+            }
+            
+            startX = null;
+        });
+    </script>
+</body>
+</html>
